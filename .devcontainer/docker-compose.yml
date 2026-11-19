@@ -1,0 +1,9 @@
+services:
+  develop:
+    container_name: vibo-kiplekker-dev
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ..:/workspace/vibo-kiplekker:cached
+    command: sleep infinity

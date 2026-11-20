@@ -23,7 +23,7 @@ const { item } = Astro.props;
         <div class="relative p-3 pb-0">
             <div class="overflow-hidden rounded-[1.4rem]">
                 <img
-                    src={item.image}
+                    src={item.image.src}
                     alt={item.imageAlt}
                     loading="lazy"
                     width="900"

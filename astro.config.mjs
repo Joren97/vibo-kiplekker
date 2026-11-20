@@ -9,8 +9,15 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
   fonts: [{
-    provider: fontProviders.fontsource(),
-    name: "BarlowCondensed",
+    provider: fontProviders.local(),
+    name: "Barlow Condensed",
     cssVariable: "--font-barlow-condensed",
-  }]
+    options: {
+      variants: [{
+        src: [
+              './src/assets/fonts/barlow-condensed-latin-800-normal.woff2',
+            ],
+        }],
+      },
+  }],
 });

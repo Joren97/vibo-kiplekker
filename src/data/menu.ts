@@ -1,3 +1,4 @@
+import type { ImageMetadata } from "astro";
 import halveKip from "../assets/menu-halve-kip.webp";
 import heleKip from "../assets/menu-hele-kip.webp";
 import kindermenu from "../assets/menu-kindermenu.webp";
@@ -10,7 +11,7 @@ export type MenuItem = {
     description: string;
     /** Use a real price like "€ 14,00" once known. */
     price: string;
-    image: string;
+    image: ImageMetadata;
     imageAlt: string;
     tag?: string;
     /** Child's drawing that peeks out from behind the card on hover. */

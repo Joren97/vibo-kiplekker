@@ -50,7 +50,7 @@
     --color-napkin: var(--napkin);
     --color-ink: var(--ink);
     --color-pencil-blue: var(--pencil-blue);
-    --font-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+    --font-display: var(--font-barlow-condensed), "Arial Narrow", system-ui, sans-serif;
     --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
     --font-hand: "Patrick Hand", "Comic Neue", cursive;
     --shadow-plate: 0 1px 0 0 oklch(1 0 0 / 0.9) inset, 0 -10px 30px -12px oklch(0.6 0.01 60 / 0.25) inset,

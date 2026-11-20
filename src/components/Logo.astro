@@ -1,0 +1,21 @@
+---
+import Wordmark from "./Wordmark.astro";
+
+interface Props {
+    class?: string;
+    inverted?: boolean;
+}
+
+const { class: className = "", inverted = false } = Astro.props;
+---
+
+<a
+    href="#top"
+    class:list={[
+        "inline-block transition-transform duration-300 hover:-rotate-2",
+        inverted ? "text-plate" : "text-primary",
+        className,
+    ]}
+>
+    <Wordmark class="h-11 w-auto md:h-12" title="VIBO Kiplekker — naar boven" />
+</a>

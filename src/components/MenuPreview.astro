@@ -1,0 +1,72 @@
+---
+import { ArrowUpRight } from "lucide-astro";
+
+import { MENU_ITEMS } from "../data/menu";
+import { ORDER_URL } from "../lib/site-config";
+
+import Reveal from "./Reveal.astro";
+import SectionHeading from "./SectionHeading.astro";
+import Kip from "./Kip.astro";
+import MenuCard from "./MenuCard.astro";
+---
+
+<section
+    id="menu"
+    aria-labelledby="menu-title"
+    class="relative bg-muted/60 py-24 md:py-32"
+>
+    <!-- Top decorative strip -->
+    <div
+        aria-hidden="true"
+        class="gingham-strip absolute inset-x-0 top-0 h-3"
+    ></div>
+
+    <div class="mx-auto max-w-7xl px-5 md:px-8">
+        <!-- Section heading -->
+        <Reveal class="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+            <SectionHeading id="menu-title" eyebrow="Vers van het spit">
+                <Fragment slot="title">
+                    Wat staat er <br class="hidden sm:block" />
+                    op het menu?
+                </Fragment>
+            </SectionHeading>
+
+            <p class="max-w-sm text-lg leading-relaxed text-muted-foreground">
+                Kip aan het spit met patatjes en appelmoes. Het volledige menu
+                en de prijzen volgen binnenkort.
+            </p>
+        </Reveal>
+
+        <!-- Menu cards -->
+        <div class="mt-10 grid gap-x-8 gap-y-6 md:grid-cols-3">
+            {MENU_ITEMS.map((item, i) => (
+                <Reveal delay={i * 120} class="h-full">
+                    <MenuCard item={item} />
+                </Reveal>
+            ))}
+        </div>
+
+        <!-- Additional products and CTA -->
+        <Reveal class="mt-14 flex flex-col items-center gap-8 md:flex-row md:justify-between">
+            <div class="napkin relative flex max-w-xl -rotate-1 items-center gap-4 rounded-2xl py-4 pl-4 pr-6">
+                <Kip name="pastel" class="w-16 shrink-0" />
+
+                <p class="text-ink">
+                    <span class="font-display text-xl font-bold uppercase">
+                        Ook verkrijgbaar:
+                    </span>{" "}
+                    afhaalkippen en dessertjes zoals rijstpap, cake en taart.
+                </p>
+            </div>
+
+            <a
+                href={ORDER_URL}
+                rel="noopener"
+                class="inline-flex items-center justify-center gap-3 rounded-full bg-primary px-8 py-4 font-display text-xl font-bold text-primary-foreground transition-all duration-300 hover:scale-105 hover:opacity-90"
+            >
+                Bekijk het volledige menu
+                <ArrowUpRight class="size-6" />
+            </a>
+        </Reveal>
+    </div>
+</section>

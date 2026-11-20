@@ -1,0 +1,63 @@
+---
+import { ArrowUpRight } from "lucide-astro";
+
+import { ORDER_URL } from "../lib/site-config";
+
+import Reveal from "./Reveal.astro";
+import Kip from "./Kip.astro";
+---
+
+<section
+    aria-labelledby="cta-title"
+    class="gingham relative overflow-hidden py-24 [--gingham-size:52px] md:py-32"
+>
+    <Reveal class="relative mx-auto w-[min(92vw,40rem)]">
+        <!-- Main plate -->
+        <div class="plate flex aspect-square flex-col items-center justify-center px-[14%] text-center">
+            <p class="font-hand text-[clamp(1.1rem,3.6vw,1.6rem)] text-primary">
+                Smakelijk!
+            </p>
+
+            <h2
+                id="cta-title"
+                class="font-display text-[clamp(2.6rem,10vw,5rem)] font-extrabold uppercase leading-[0.88] text-ink"
+            >
+                Zin in iets
+                <span class="text-primary">lekkers?</span>
+            </h2>
+
+            <p class="mt-[5%] max-w-xs text-[clamp(0.9rem,2.8vw,1.1rem)] leading-relaxed text-muted-foreground">
+                Bestel vandaag nog je maaltijd en steun onze leerlingen.
+            </p>
+
+            <!-- Order button -->
+            <a
+                href={ORDER_URL}
+                rel="noopener"
+                class="mt-[6%] inline-flex items-center justify-center gap-3 rounded-full bg-primary px-8 py-4 font-display text-xl font-bold text-primary-foreground shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl md:px-10 md:py-5 md:text-2xl"
+            >
+                Bestel nu
+                <ArrowUpRight class="size-6" aria-hidden="true" />
+            </a>
+        </div>
+
+        <!-- Decorative chickens -->
+        <Kip
+            name="kleur"
+            hop
+            class="absolute -bottom-6 -left-6 w-[26%] md:-left-24"
+        />
+
+        <Kip
+            name="pastel"
+            flip
+            class="kip-sway absolute -right-4 bottom-[8%] w-[22%] md:-right-24"
+        />
+
+        <Kip
+            name="roze"
+            flip
+            class="absolute -right-2 -top-6 w-[20%] md:-right-16"
+        />
+    </Reveal>
+</section>

@@ -1,0 +1,72 @@
+---
+import blauw from "../assets/kippen/kip-blauw.webp";
+import bol from "../assets/kippen/kip-bol.webp";
+import bruin from "../assets/kippen/kip-bruin.webp";
+import klein from "../assets/kippen/kip-klein.webp";
+import kleur from "../assets/kippen/kip-kleur.webp";
+import pastel from "../assets/kippen/kip-pastel.webp";
+import roze from "../assets/kippen/kip-roze.webp";
+import schets from "../assets/kippen/kip-schets.webp";
+import wit from "../assets/kippen/kip-wit.webp";
+import zwaai from "../assets/kippen/kip-zwaai.webp";
+
+/** The children's original chicken drawings. */
+const KIPPEN = {
+    blauw,
+    bol,
+    bruin,
+    klein,
+    kleur,
+    pastel,
+    roze,
+    schets,
+    wit,
+    zwaai,
+} as const;
+
+export type KipName = keyof typeof KIPPEN;
+
+interface Props {
+    name: KipName;
+    class?: string;
+    /** Mirror horizontally so the chicken faces the other way. */
+    flip?: boolean;
+    /** Hop up when hovered. */
+    hop?: boolean;
+    /** Load eagerly for above-the-fold images. */
+    priority?: boolean;
+}
+
+const {
+    name,
+    class: className = "",
+    flip = false,
+    hop = false,
+    priority = false,
+} = Astro.props;
+
+const kip = KIPPEN[name];
+---
+
+<span
+    aria-hidden="true"
+    class:list={[
+        "block select-none",
+        hop ? "kip-hop" : "pointer-events-none",
+        className,
+    ]}
+>
+    <img
+        src={kip.src}
+        width={kip.width}
+        height={kip.height}
+        alt=""
+        draggable="false"
+        loading={priority ? "eager" : "lazy"}
+        decoding="async"
+        class:list={[
+            "block h-auto w-full drop-shadow-[0_8px_10px_oklch(0.3_0.05_30/0.18)]",
+            flip && "-scale-x-100",
+        ]}
+    />
+</span>

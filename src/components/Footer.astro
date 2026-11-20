@@ -1,0 +1,140 @@
+---
+import { ArrowUpRight, Mail, Phone, MapPin } from "lucide-astro";
+
+import { CONTACT, NAV_LINKS, ORDER_URL, SITE } from "../lib/site-config";
+
+import Logo from "./Logo.astro";
+import Kip from "./Kip.astro";
+
+const PLACEHOLDER = "Volgt binnenkort";
+
+const year = new Date().getFullYear();
+
+const contact = [
+    {
+        icon: Mail,
+        label: "E-mail",
+        value: CONTACT.email,
+        href: CONTACT.email ? `mailto:${CONTACT.email}` : undefined,
+    },
+    {
+        icon: Phone,
+        label: "Telefoon",
+        value: CONTACT.phone,
+        href: CONTACT.phone ? `tel:${CONTACT.phone}` : undefined,
+    },
+    {
+        icon: MapPin,
+        label: "Adres",
+        value: CONTACT.address,
+        href: undefined,
+    },
+];
+---
+
+<footer class="relative bg-gingham-deep text-gingham-deep-foreground">
+    <!-- Decorative chicken -->
+    <Kip
+        name="bruin"
+        flip
+        class="absolute -top-[4.6rem] right-[8%] w-20 md:w-24"
+    />
+
+    <!-- Top decorative strip -->
+    <div aria-hidden="true" class="gingham-strip h-3"></div>
+
+    <!-- Footer content -->
+    <div class="mx-auto grid max-w-7xl gap-12 px-5 py-16 md:grid-cols-[1.4fr_1fr_1fr] md:px-8">
+        <!-- Brand and ordering -->
+        <div>
+            <Logo inverted />
+
+            <p class="mt-5 max-w-sm leading-relaxed text-gingham-deep-foreground/80">
+                Het eetfestijn van onze school, {SITE.purpose}. {SITE.tagline}
+            </p>
+
+            <a
+                href={ORDER_URL}
+                rel="noopener"
+                class="mt-6 inline-flex items-center gap-1.5 font-display text-lg font-bold uppercase tracking-wide underline decoration-2 underline-offset-4 hover:text-plate/80"
+            >
+                Naar de bestelpagina
+                <ArrowUpRight class="size-4" aria-hidden="true" />
+            </a>
+        </div>
+
+        <!-- Navigation -->
+        <nav aria-label="Footernavigatie">
+            <h2 class="font-display text-xl font-bold uppercase tracking-widest text-gingham-deep-foreground/60">
+                Navigatie
+            </h2>
+
+            <ul class="mt-4 space-y-2">
+                {NAV_LINKS.map((link) => (
+                    <li>
+                        <a
+                            href={link.href}
+                            class="text-lg transition-colors hover:text-plate/70"
+                        >
+                            {link.label}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </nav>
+
+        <!-- Contact -->
+        <div>
+            <h2 class="font-display text-xl font-bold uppercase tracking-widest text-gingham-deep-foreground/60">
+                Contact
+            </h2>
+
+            <ul class="mt-4 space-y-3">
+                {contact.map((c) => {
+                    const Icon = c.icon;
+
+                    return (
+                        <li class="flex items-start gap-3">
+                            <Icon
+                                class="mt-1 size-4 shrink-0 opacity-70"
+                                aria-hidden="true"
+                            />
+
+                            <span>
+                                <span class="sr-only">{c.label}: </span>
+
+                                {c.value ? (
+                                    c.href ? (
+                                        <a
+                                            href={c.href}
+                                            class="hover:text-plate/70"
+                                        >
+                                            {c.value}
+                                        </a>
+                                    ) : (
+                                        c.value
+                                    )
+                                ) : (
+                                    <span class="opacity-70">
+                                        {c.label}: <em>{PLACEHOLDER}</em>
+                                    </span>
+                                )}
+                            </span>
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="border-t border-gingham-deep-foreground/15">
+        <div class="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-6 text-sm text-gingham-deep-foreground/70 md:flex-row md:justify-between md:px-8">
+            <p>
+                © {year} {SITE.name}. Alle rechten voorbehouden.
+            </p>
+
+            <p>Met tekeningen van onze leerlingen.</p>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,253 @@
+---
+import { Menu, X, ArrowUpRight } from "lucide-astro";
+import { NAV_LINKS, ORDER_URL } from "../lib/site-config";
+import Logo from "./Logo.astro";
+---
+
+<header
+    id="site-header"
+    class="sticky top-0 z-50 bg-background/90 backdrop-blur-xl transition-shadow duration-300"
+>
+    <div
+        aria-hidden="true"
+        class="gingham-strip h-2 [--gingham-size:8px]"
+    ></div>
+
+    <nav
+        aria-label="Hoofdnavigatie"
+        class="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between px-5 md:h-20 md:px-8"
+    >
+        <Logo />
+
+        <!-- Desktop navigation -->
+        <ul class="hidden items-center gap-1 lg:flex">
+            {NAV_LINKS.map((link) => (
+                <li>
+                    <a
+                        href={link.href}
+                        data-nav-link
+                        aria-current={link.href === "#top" ? "true" : undefined}
+                        class:list={[
+                            "relative px-4 py-2 font-display text-lg font-semibold uppercase tracking-wide transition-colors hover:text-primary",
+                            link.href === "#top" ? "text-primary" : "text-ink",
+                        ]}
+                    >
+                        {link.label}
+
+                        <span
+                            aria-hidden="true"
+                            data-nav-indicator
+                            class:list={[
+                                "gingham-strip absolute inset-x-4 -bottom-0.5 h-1.5 origin-left rounded-full transition-transform duration-300 [--gingham-size:6px]",
+                                link.href === "#top"
+                                    ? "scale-x-100"
+                                    : "scale-x-0",
+                            ]}
+                        />
+                    </a>
+                </li>
+            ))}
+        </ul>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-3">
+            <a
+                href={ORDER_URL}
+                rel="noopener"
+                class="hidden items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 font-display text-lg font-bold text-primary-foreground transition-all hover:scale-[1.03] hover:opacity-90 sm:inline-flex"
+            >
+                Bestel nu
+                <ArrowUpRight class="size-5" />
+            </a>
+
+            <!-- Mobile menu toggle -->
+            <button
+                id="mobile-menu-toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+                aria-label="Menu openen"
+                class="grid size-11 place-items-center rounded-full border-2 border-ink text-ink transition-colors hover:bg-ink hover:text-plate lg:hidden"
+            >
+                <Menu data-menu-icon class="size-5" />
+                <X data-close-icon class="hidden size-5" />
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile navigation -->
+    <div
+        id="mobile-menu"
+        aria-hidden="true"
+        inert
+        class="pointer-events-none max-h-0 overflow-hidden opacity-0 transition-[max-height,opacity] duration-500 ease-out lg:hidden"
+    >
+        <ul class="napkin mx-5 mb-6 flex flex-col gap-1 rounded-3xl p-3">
+            {NAV_LINKS.map((link) => (
+                <li>
+                    <a
+                        href={link.href}
+                        data-mobile-link
+                        class="flex items-center justify-between rounded-2xl px-4 py-3.5 font-display text-2xl font-bold uppercase tracking-wide text-ink transition-colors hover:bg-muted"
+                    >
+                        {link.label}
+                        <span aria-hidden="true" class="text-primary">
+                            &rarr;
+                        </span>
+                    </a>
+                </li>
+            ))}
+
+            <li class="pt-2">
+                <a
+                    href={ORDER_URL}
+                    rel="noopener"
+                    class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 font-display text-lg font-bold text-primary-foreground transition-all hover:scale-[1.03] hover:opacity-90"
+                >
+                    Bestel nu
+                    <ArrowUpRight class="size-5" />
+                </a>
+            </li>
+        </ul>
+    </div>
+</header>
+
+<script>
+    import { NAV_LINKS } from "../lib/site-config";
+
+    function initHeader() {
+        const header = document.querySelector<HTMLElement>("#site-header");
+        const toggle = document.querySelector<HTMLButtonElement>(
+            "#mobile-menu-toggle",
+        );
+        const mobileMenu = document.querySelector<HTMLElement>("#mobile-menu");
+
+        if (!header || !toggle || !mobileMenu) return;
+
+        const menuIcon = toggle.querySelector<SVGElement>("[data-menu-icon]");
+        const closeIcon = toggle.querySelector<SVGElement>("[data-close-icon]");
+
+        const desktopLinks = Array.from(
+            header.querySelectorAll<HTMLAnchorElement>("[data-nav-link]"),
+        );
+
+        const mobileLinks = Array.from(
+            header.querySelectorAll<HTMLAnchorElement>("[data-mobile-link]"),
+        );
+
+        let open = false;
+
+        // Scroll shadow
+        const updateShadow = () => {
+            header.classList.toggle(
+                "shadow-paper",
+                window.scrollY > 12 || open,
+            );
+        };
+
+        // Mobile menu state
+        const setMenuOpen = (value: boolean) => {
+            open = value;
+
+            toggle.setAttribute("aria-expanded", String(open));
+            toggle.setAttribute(
+                "aria-label",
+                open ? "Menu sluiten" : "Menu openen",
+            );
+
+            mobileMenu.setAttribute("aria-hidden", String(!open));
+            mobileMenu.inert = !open;
+
+            mobileMenu.classList.toggle("max-h-[32rem]", open);
+            mobileMenu.classList.toggle("opacity-100", open);
+
+            mobileMenu.classList.toggle("max-h-0", !open);
+            mobileMenu.classList.toggle("opacity-0", !open);
+            mobileMenu.classList.toggle("pointer-events-none", !open);
+
+            menuIcon?.classList.toggle("hidden", open);
+            closeIcon?.classList.toggle("hidden", !open);
+
+            document.body.style.overflow = open ? "hidden" : "";
+
+            updateShadow();
+        };
+
+        toggle.addEventListener("click", () => {
+            setMenuOpen(!open);
+        });
+
+        // Close menu when navigating
+        mobileLinks.forEach((link) => {
+            link.addEventListener("click", () => setMenuOpen(false));
+        });
+
+        // Close menu with Escape
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && open) {
+                setMenuOpen(false);
+                toggle.focus();
+            }
+        });
+
+        // Close menu when switching to desktop
+        const desktopQuery = window.matchMedia("(min-width: 1024px)");
+
+        desktopQuery.addEventListener("change", (event) => {
+            if (event.matches && open) {
+                setMenuOpen(false);
+            }
+        });
+
+        // Active navigation highlighting
+        const setActive = (href: string) => {
+            desktopLinks.forEach((link) => {
+                const active = link.getAttribute("href") === href;
+
+                if (active) {
+                    link.setAttribute("aria-current", "true");
+                } else {
+                    link.removeAttribute("aria-current");
+                }
+
+                link.classList.toggle("text-primary", active);
+                link.classList.toggle("text-ink", !active);
+
+                const indicator = link.querySelector<HTMLElement>(
+                    "[data-nav-indicator]",
+                );
+
+                indicator?.classList.toggle("scale-x-100", active);
+                indicator?.classList.toggle("scale-x-0", !active);
+            });
+        };
+
+        const sections = NAV_LINKS.map((link) =>
+            document.querySelector<HTMLElement>(link.href),
+        ).filter((section): section is HTMLElement => section !== null);
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActive(`#${entry.target.id}`);
+                    }
+                });
+            },
+            {
+                rootMargin: "-45% 0px -50% 0px",
+            },
+        );
+
+        sections.forEach((section) => observer.observe(section));
+
+        // Initial state
+        updateShadow();
+
+        window.addEventListener("scroll", updateShadow, {
+            passive: true,
+        });
+    }
+
+    initHeader();
+</script>

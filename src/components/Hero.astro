@@ -1,0 +1,129 @@
+---
+import { ArrowRight, MapPin, Clock } from "lucide-astro";
+
+import Kip from "./Kip.astro";
+import Wordmark from "./Wordmark.astro";
+
+import { EVENT_INFO, ORDER_URL, SITE } from "../lib/site-config";
+---
+
+<section
+    id="top"
+    class="gingham relative overflow-hidden pb-24 pt-10 [--gingham-size:52px] md:pb-32 md:pt-14"
+>
+    <div class="mx-auto grid max-w-7xl items-center gap-y-20 px-5 md:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-x-6">
+        <!-- The plate — straight from the poster -->
+        <div class="relative mx-auto w-full max-w-[40rem] animate-in fade-in zoom-in-95 duration-700">
+            <div class="plate relative aspect-square w-full">
+                <div class="absolute inset-0 flex flex-col items-center justify-center px-[15%] text-center">
+                    <p class="font-hand text-[clamp(0.95rem,3.4vw,1.6rem)] leading-tight text-primary">
+                        {SITE.purpose}
+                    </p>
+
+                    <h1 class="mt-[3%] w-full text-primary">
+                        <Wordmark class="w-full" />
+                    </h1>
+
+                    <p class="mt-[5%] font-display text-[clamp(1.35rem,5vw,2.6rem)] font-extrabold uppercase leading-none tracking-wide text-ink">
+                        {EVENT_INFO.datum}
+                    </p>
+
+                    <p class="mt-[4%] font-hand text-[clamp(0.85rem,2.6vw,1.2rem)] uppercase tracking-[0.2em] text-ink/70">
+                        Bestellen via {SITE.website}
+                    </p>
+                </div>
+            </div>
+
+            <Kip
+                name="blauw"
+                priority
+                class="kip-sway absolute -bottom-10 -left-3 w-[30%] md:-left-10"
+            />
+
+            <Kip
+                name="klein"
+                priority
+                flip
+                class="absolute -right-1 top-[4%] w-[19%] md:-right-6"
+            />
+        </div>
+
+        <!-- The napkin with the message -->
+        <div class="relative mx-auto w-full max-w-xl lg:max-w-none">
+            <Kip
+                name="bruin"
+                priority
+                hop
+                class="absolute -top-[6.2rem] right-8 z-10 w-28 md:-top-[7.4rem] md:w-36"
+            />
+
+            <div class="napkin relative rotate-[1.2deg] rounded-[1.75rem] p-7 md:p-10">
+                <h2 class="font-display text-[2.6rem] font-extrabold uppercase leading-[0.92] text-ink md:text-[3.4rem]">
+                    Een heerlijke maaltijd voor een
+                    <span class="text-primary">prachtig doel!</span>
+                </h2>
+
+                <p class="mt-5 text-lg leading-relaxed text-muted-foreground">
+                    {SITE.description}
+                </p>
+
+                <!-- CTA buttons -->
+                <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                    <a
+                        href={ORDER_URL}
+                        rel="noopener"
+                        class="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 font-display text-lg font-bold text-primary-foreground transition-all hover:scale-[1.03] hover:opacity-90"
+                    >
+                        Bestel je maaltijd
+                        <ArrowRight class="size-5" />
+                    </a>
+
+                    <a
+                        href="#menu"
+                        class="inline-flex items-center justify-center gap-2 rounded-xl bg-ink px-8 py-4 font-display text-lg font-bold text-white transition-all hover:scale-[1.03] hover:opacity-90"
+                    >
+                        Ontdek het menu
+                    </a>
+                </div>
+
+                <!-- Event information -->
+                <dl class="mt-8 grid gap-4 border-t-2 border-dashed border-ink/15 pt-6 sm:grid-cols-2">
+                    <div class="flex items-center gap-3">
+                        <span class="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground">
+                            <MapPin class="size-5" />
+                        </span>
+
+                        <div>
+                            <dt class="font-display text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+                                Locatie
+                            </dt>
+                            <dd class="font-display text-xl font-bold text-ink">
+                                {EVENT_INFO.locatie}
+                            </dd>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <span class="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground">
+                            <Clock class="size-5" />
+                        </span>
+
+                        <div>
+                            <dt class="font-display text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+                                Bestellen tot
+                            </dt>
+                            <dd class="font-display text-xl font-bold text-ink">
+                                {EVENT_INFO.bestellenTot}
+                            </dd>
+                        </div>
+                    </div>
+                </dl>
+            </div>
+
+            <Kip
+                name="roze"
+                class="animate-peck absolute -bottom-16 -left-6 w-24 md:-left-14 md:w-32"
+            />
+        </div>
+    </div>
+</section>

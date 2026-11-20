@@ -1,0 +1,113 @@
+---
+import { CalendarDays, MapPin, Timer, ShoppingBag } from "lucide-astro";
+
+import { EVENT_INFO, TBD } from "../lib/site-config";
+
+import Reveal from "./Reveal.astro";
+import SectionHeading from "./SectionHeading.astro";
+import Kip from "./Kip.astro";
+
+const ITEMS = [
+    {
+        icon: CalendarDays,
+        label: "Datum",
+        value: EVENT_INFO.datum,
+    },
+    {
+        icon: MapPin,
+        label: "Locatie",
+        value: EVENT_INFO.locatie,
+    },
+    {
+        icon: Timer,
+        label: "Bestellen tot",
+        value: EVENT_INFO.bestellenTot,
+    },
+    {
+        icon: ShoppingBag,
+        label: "Afhaalmoment",
+        value: EVENT_INFO.afhaalmoment,
+    },
+];
+---
+
+<section
+    id="info"
+    aria-labelledby="info-title"
+    class="relative overflow-hidden py-24 md:py-32"
+>
+    <div class="mx-auto grid max-w-7xl gap-14 px-5 md:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+        <!-- Section heading -->
+        <Reveal class="relative">
+            <SectionHeading
+                id="info-title"
+                eyebrow="Goed om te weten"
+                title="Praktische info"
+                intro="Hier vind je alles wat je moet weten. Details die nog niet vastliggen, vullen we zo snel mogelijk aan."
+            />
+
+            <Kip name="schets" class="kip-sway mt-8 hidden w-28 lg:block" />
+        </Reveal>
+
+        <!-- Practical information cards -->
+        <div class="relative">
+            <Kip
+                name="wit"
+                class="absolute -top-24 right-6 w-24 lg:hidden"
+                flip
+            />
+
+            <dl class="grid gap-5 sm:grid-cols-2">
+                {ITEMS.map((item, i) => {
+                    const Icon = item.icon;
+                    const pending = item.value === TBD;
+
+                    return (
+                        <Reveal delay={i * 100} class="h-full">
+                            <div
+                                class:list={[
+                                    "napkin group relative h-full overflow-hidden rounded-[1.75rem] p-7 transition-transform duration-300 hover:-translate-y-1",
+                                    i % 2 === 0
+                                        ? "sm:-rotate-1"
+                                        : "sm:rotate-1",
+                                ]}
+                            >
+                                <!-- Folded corner -->
+                                <span
+                                    aria-hidden="true"
+                                    class="gingham absolute right-0 top-0 size-12 rounded-bl-2xl [--gingham-size:12px]"
+                                />
+
+                                <!-- Icon -->
+                                <span class="grid size-12 place-items-center rounded-full bg-primary text-primary-foreground">
+                                    <Icon class="size-6" />
+                                </span>
+
+                                <!-- Label -->
+                                <dt class="mt-6 font-display text-base font-semibold uppercase tracking-widest text-muted-foreground">
+                                    {item.label}
+                                </dt>
+
+                                <!-- Value -->
+                                <dd
+                                    class:list={[
+                                        "mt-1 font-display text-3xl font-extrabold uppercase leading-none",
+                                        pending ? "text-ink/45" : "text-ink",
+                                    ]}
+                                >
+                                    {item.value}
+                                </dd>
+
+                                {pending && (
+                                    <p class="mt-2 font-hand text-lg text-primary">
+                                        Volgt binnenkort
+                                    </p>
+                                )}
+                            </div>
+                        </Reveal>
+                    );
+                })}
+            </dl>
+        </div>
+    </div>
+</section>

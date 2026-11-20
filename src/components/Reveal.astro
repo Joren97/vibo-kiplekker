@@ -1,0 +1,65 @@
+---
+import type { HTMLTag } from "astro/types";
+
+interface Props {
+    class?: string;
+    delay?: number;
+    as?: HTMLTag;
+}
+
+const { class: className = "", delay = 0, as: Tag = "div" } = Astro.props;
+---
+
+<Tag
+    data-reveal
+    data-visible="false"
+    class:list={["reveal", className]}
+    style={`transition-delay: ${delay}ms`}
+>
+    <slot />
+</Tag>
+
+<script>
+    function initReveals() {
+        const elements = document.querySelectorAll<HTMLElement>(
+            "[data-reveal]:not([data-reveal-initialized])",
+        );
+
+        const reducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        const show = (element: HTMLElement) => {
+            element.dataset.visible = "true";
+        };
+
+        if (reducedMotion || !("IntersectionObserver" in window)) {
+            elements.forEach(show);
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        show(entry.target as HTMLElement);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                threshold: 0.15,
+                rootMargin: "0px 0px -40px 0px",
+            },
+        );
+
+        elements.forEach((element) => {
+            element.dataset.revealInitialized = "true";
+            observer.observe(element);
+        });
+    }
+
+    initReveals();
+
+    document.addEventListener("astro:page-load", initReveals);
+</script>

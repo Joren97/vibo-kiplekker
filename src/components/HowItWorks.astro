@@ -1,0 +1,105 @@
+---
+import { UtensilsCrossed, MousePointerClick, Smile } from "lucide-astro";
+
+import Reveal from "./Reveal.astro";
+import SectionHeading from "./SectionHeading.astro";
+import Kip from "./Kip.astro";
+
+const STEPS = [
+    {
+        icon: UtensilsCrossed,
+        title: "Kies je maaltijd",
+        text: "Bekijk het menu en kies wat jij en je gezin graag eten.",
+        tilt: "md:-rotate-2",
+    },
+    {
+        icon: MousePointerClick,
+        title: "Bestel online",
+        text: "Plaats eenvoudig je bestelling via onze bestelpagina.",
+        tilt: "md:rotate-1 md:translate-y-8",
+    },
+    {
+        icon: Smile,
+        title: "Geniet ervan",
+        text: "Kom je maaltijd ophalen en geniet terwijl je de school steunt.",
+        tilt: "md:-rotate-1",
+    },
+];
+---
+
+<section
+    aria-labelledby="stappen-title"
+    class="relative overflow-hidden bg-gingham-deep py-24 text-gingham-deep-foreground md:py-32"
+>
+    <!-- Decorative gingham strips -->
+    <div
+        aria-hidden="true"
+        class="gingham-strip absolute inset-x-0 top-0 h-3"
+    ></div>
+
+    <div
+        aria-hidden="true"
+        class="gingham-strip absolute inset-x-0 bottom-0 h-3"
+    ></div>
+
+    <div class="mx-auto max-w-7xl px-5 md:px-8">
+        <!-- Section heading -->
+        <Reveal>
+            <SectionHeading
+                id="stappen-title"
+                inverted
+                align="center"
+                eyebrow="Zo werkt het"
+                title="In drie stappen aan tafel"
+            />
+        </Reveal>
+
+        <!-- Steps -->
+        <ol class="mt-16 grid gap-8 md:grid-cols-3 md:gap-10">
+            {STEPS.map((step, i) => {
+                const Icon = step.icon;
+
+                return (
+                    <Reveal as="li" delay={i * 140} class="relative">
+                        {i === 2 && (
+                            <Kip
+                                name="zwaai"
+                                hop
+                                class="absolute -top-24 right-2 z-10 w-32 md:-right-4 md:w-36"
+                            />
+                        )}
+
+                        <div
+                            class:list={[
+                                "napkin relative h-full rounded-[1.75rem] p-7 text-ink md:p-8",
+                                step.tilt,
+                            ]}
+                        >
+                            <div class="flex items-start justify-between">
+                                <span
+                                    class="font-hand text-7xl leading-none text-primary"
+                                    aria-hidden="true"
+                                >
+                                    {i + 1}
+                                </span>
+
+                                <span class="grid size-14 place-items-center rounded-full bg-primary text-primary-foreground">
+                                    <Icon class="size-7" />
+                                </span>
+                            </div>
+
+                            <h3 class="mt-6 font-display text-3xl font-extrabold uppercase leading-none">
+                                <span class="sr-only">Stap {i + 1}:</span>
+                                {step.title}
+                            </h3>
+
+                            <p class="mt-3 text-lg leading-relaxed text-muted-foreground">
+                                {step.text}
+                            </p>
+                        </div>
+                    </Reveal>
+                );
+            })}
+        </ol>
+    </div>
+</section>

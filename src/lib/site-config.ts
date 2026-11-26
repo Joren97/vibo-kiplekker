@@ -10,10 +10,10 @@ export const TBD = "Nog te bepalen";
 export const SITE = {
     name: "VIBO Kiplekker",
     website: "www.vibo-kiplekker.be",
-    purpose: "ten voordele van de bos- en zeeklassen",
+    purpose: "ten voordele van de bosklassen OV1",
     tagline: "Een heerlijke maaltijd voor een prachtig doel!",
     description:
-        "Geniet van een lekkere maaltijd en steun tegelijkertijd de schooluitstappen van onze leerlingen. Samen maken we er een smakelijk succes van!",
+        "Geniet van een lekkere maaltijd en steun tegelijkertijd de bosklassen van onze leerlingen. Samen maken we er een smakelijk succes van!",
 };
 
 export const EVENT_INFO = {

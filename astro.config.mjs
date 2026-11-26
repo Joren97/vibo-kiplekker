@@ -19,5 +19,17 @@ export default defineConfig({
             ],
         }],
       },
+  },
+  {
+    provider: fontProviders.local(),
+    name: "Patrick Hand",
+    cssVariable: "--font-patrick-hand",
+    options: {
+      variants: [{
+        src: [
+              './src/assets/fonts/patrick-hand-latin-400-normal.woff2',
+            ],
+        }],
+      },
   }],
 });
